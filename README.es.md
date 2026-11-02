@@ -37,7 +37,7 @@ El botón abre el diálogo para añadir el repositorio personalizado en HACS. Ta
 2. Añade `https://github.com/olerida/maestro_recipes` con la categoría **Integración**.
 3. Busca **Maestro MCZ Recipes**, descárgala y reinicia Home Assistant.
 
-Es un repositorio personalizado y no está incluido en el catálogo predeterminado de HACS. Todavía no se ha publicado una versión etiquetada; la disponibilidad de descarga depende de las opciones de versión de HACS. La instalación manual utiliza el código de la rama `main`.
+Es un repositorio personalizado y no está incluido en el catálogo predeterminado de HACS. La integración está en fase beta; activa **Mostrar versiones beta** en HACS si la versión no aparece.
 
 ## Actualización
 
@@ -83,7 +83,7 @@ Para cambiar Activo, se actualiza el origen y se envían juntos el ajuste y su e
 - **Falta un valor:** espera una actualización del coordinador y revisa las entidades deshabilitadas. La estufa y la integración original deben proporcionar ese dato.
 - **Falta un control:** comprueba que activaste **Opciones avanzadas**. El control también requiere metadatos del modelo reconocidos y, para números, límites válidos.
 - **Los valores no están disponibles o no se actualizan:** revisa la conexión de la estufa y Maestro MCZ. Tras recargar la integración original, recarga también Recipes.
-- **HACS no muestra una versión:** comprueba las opciones de versión del repositorio. Si no hay una versión publicada, utiliza la instalación manual.
+- **HACS no muestra una versión:** comprueba las opciones de versión del repositorio. Activa **Mostrar versiones beta** si no aparece la versión.
 
 ## Eliminar la integración
 

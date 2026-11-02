@@ -37,7 +37,7 @@ The button opens the dialog to add the custom repository in HACS. You can also a
 2. Add `https://github.com/olerida/maestro_recipes` with category **Integration**.
 3. Find **Maestro MCZ Recipes**, download it and restart Home Assistant.
 
-This is a custom repository and is not included in the default HACS catalog. No tagged release has been published yet; download availability depends on HACS version options. Manual installation uses the code on `main`.
+This is a custom repository and is not included in the default HACS catalog. The integration is in beta; enable **Show beta versions** in HACS if the release is not listed.
 
 ## Updating
 
@@ -83,7 +83,7 @@ Changing Active refreshes the source and sends the adjustment and enabled state 
 - **A value is missing:** wait for a coordinator update and check disabled entities. The stove and source integration must provide the data.
 - **A control is missing:** check that **Advanced options** is enabled. Controls also require recognized model metadata and valid numeric limits.
 - **Values are unavailable or stale:** check the stove connection and Maestro MCZ. Reload Recipes after reloading the original integration.
-- **HACS does not show a version:** check the repository's version options. If no release is available, use manual installation.
+- **HACS does not show a version:** check the repository's version options. Enable **Show beta versions** if the release is not listed.
 
 ## Remove the integration
 

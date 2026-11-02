@@ -1,12 +1,9 @@
 # Changelog
 
-## Unreleased security improvements
+## 0.1.0
 
 - Pin CI actions to immutable commits.
 - Refresh Active settings before paired writes; concurrent external writes may still race.
-
-
-## 0.1.0 — unreleased
 
 - Read-only recipe values by default, with optional advanced controls during setup.
 - Reuse an existing Maestro MCZ 0.6.7-beta account and coordinator.
