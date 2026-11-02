@@ -106,3 +106,17 @@ async def test_advanced_selection_is_persisted(hass):
         result = await hass.config_entries.flow.async_configure(result["flow_id"], {"source_entry_id": source.entry_id, "advanced": True})
         await hass.async_block_till_done()
     assert result["data"] == {"source_entry_id": source.entry_id, "advanced": True}
+
+@pytest.mark.parametrize(('data_value', 'options', 'expected'), [
+    (False, {}, False),
+    (True, {}, True),
+    (True, {'advanced': False}, False),
+    (False, {'advanced': True}, True),
+])
+async def test_options_default_respects_existing_mode(hass, data_value, options, expected):
+    source = add_source(hass)
+    entry = MockConfigEntry(domain=DOMAIN, data={'source_entry_id': source.entry_id, 'advanced': data_value}, options=options)
+    entry.add_to_hass(hass)
+    flow = await hass.config_entries.options.async_init(entry.entry_id)
+    assert flow['type'] is FlowResultType.FORM
+    assert flow['data_schema']({})['advanced'] is expected

@@ -87,7 +87,7 @@ async def test_read_only_entities_expose_state_without_command_capabilities(hass
     coordinator = MagicMock(last_update_success=True)
     coordinator.get_device_info.return_value = {}
     stove = NS(UniqueCode='test', Status=NS(pos_ric_flu=1, pos_ric_pel=-1, mod_ada_on=False, act=True, is_connected=True), State=None)
-    entry = NS(runtime_data=[(coordinator, stove, asyncio.Lock())], async_on_unload=MagicMock())
+    entry = NS(runtime_data=NS(sources=[(coordinator, stove, asyncio.Lock())]), async_on_unload=MagicMock())
     entities = []
     await sensor.async_setup_entry(hass, entry, entities.extend)
     await binary_sensor.async_setup_entry(hass, entry, entities.extend)
@@ -108,7 +108,7 @@ async def test_late_readings_discovered_once_and_listener_removed(hass):
     coordinator.async_add_listener.side_effect = add_listener
     stove = NS(UniqueCode='test', Status=NS(pos_ric_pel=None, pos_ric_flu=None), State=None)
     cleanup = []
-    entry = NS(runtime_data=[(coordinator, stove, asyncio.Lock())], async_on_unload=cleanup.append)
+    entry = NS(runtime_data=NS(sources=[(coordinator, stove, asyncio.Lock())]), async_on_unload=cleanup.append)
     entities = []
     await sensor.async_setup_entry(hass, entry, entities.extend)
     assert entities == []
@@ -126,7 +126,7 @@ async def test_controls_only_for_recognized_and_compatible_metadata(hass):
     coordinator = MagicMock(last_update_success=True)
     coordinator.get_device_info.return_value = {}
     stove = NS(UniqueCode='test', Model=model, Status=NS(pos_ric_pel=0, pos_ric_flu=0, act=True, mod_ada_on=False, is_connected=True), State=None)
-    entry = NS(runtime_data=[(coordinator, stove, asyncio.Lock())])
+    entry = NS(runtime_data=NS(sources=[(coordinator, stove, asyncio.Lock())]))
     entities = []
     await number.async_setup_entry(hass, entry, entities.extend)
     await switch.async_setup_entry(hass, entry, entities.extend)
@@ -215,3 +215,46 @@ async def test_active_refresh_failure_prevents_write(hass):
         with pytest.raises(HomeAssistantError):
             await entity.async_set_native_value(1)
     stove.ActivateProgramMultipleCommands.assert_not_awaited()
+
+async def test_options_reload_switches_modes_and_preserves_account(hass):
+    """Changing options unloads the old platforms and retains legacy data."""
+    import logging
+    from homeassistant.components.number import DOMAIN as NUMBER_DOMAIN
+    from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
+    from homeassistant.data_entry_flow import FlowResultType
+    from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
+    from pytest_homeassistant_custom_component.common import MockConfigEntry
+
+    source = MockConfigEntry(domain='maestro_mcz', entry_id='source-options')
+    source.add_to_hass(hass)
+    model, _ = fixture()
+    stove = NS(UniqueCode='test-options', Model=model,
+               Status=NS(pos_ric_pel=0, pos_ric_flu=0, act=True, mod_ada_on=False, is_connected=True), State=None)
+    coordinator = DataUpdateCoordinator(hass, logging.getLogger(__name__), name='test', config_entry=source)
+    coordinator.maestroapi = stove
+    coordinator.get_device_info = lambda: {'identifiers': {('maestro_mcz', 'test-options')}, 'name': 'Test stove'}
+    hass.data['maestro_mcz'] = {source.entry_id: [coordinator]}
+    entry = MockConfigEntry(domain='maestro_recipes', data={'source_entry_id': source.entry_id, 'advanced': False})
+    entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert len(hass.states.async_entity_ids(SENSOR_DOMAIN)) == 2
+    assert all(hass.states.get(entity_id).state == 'unavailable' for entity_id in hass.states.async_entity_ids(NUMBER_DOMAIN))
+
+    flow = await hass.config_entries.options.async_init(entry.entry_id)
+    assert flow['type'] is FlowResultType.FORM
+    result = await hass.config_entries.options.async_configure(flow['flow_id'], {'advanced': True})
+    assert result['type'] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+    assert entry.options['advanced'] is True
+    assert entry.data['source_entry_id'] == source.entry_id
+    assert len(hass.states.async_entity_ids(NUMBER_DOMAIN)) == 2
+    assert all(hass.states.get(entity_id).state == 'unavailable' for entity_id in hass.states.async_entity_ids(SENSOR_DOMAIN))
+
+    flow = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(flow['flow_id'], {'advanced': False})
+    assert result['type'] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+    assert entry.options['advanced'] is False
+    assert len(hass.states.async_entity_ids(SENSOR_DOMAIN)) == 2
+    assert all(hass.states.get(entity_id).state == 'unavailable' for entity_id in hass.states.async_entity_ids(NUMBER_DOMAIN))

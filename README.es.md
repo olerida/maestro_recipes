@@ -50,7 +50,7 @@ Actualiza los archivos mediante HACS cuando haya una versión disponible y reini
 3. Selecciona la cuenta configurada en Maestro MCZ.
 4. Deja **Opciones avanzadas** desactivada para ver los valores sin controles. Actívala si deseas habilitar los controles compatibles y confirma.
 
-No se solicitan credenciales adicionales. Cada cuenta Maestro MCZ se puede añadir una vez. Para cambiar la elección de opciones avanzadas, elimina y vuelve a añadir la integración.
+No se solicitan credenciales adicionales. Cada cuenta Maestro MCZ se puede añadir una vez. Para cambiarla más tarde, abre **Ajustes** → **Dispositivos y servicios** → **Maestro MCZ Recipes**, pulsa **Configurar** y modifica **Opciones avanzadas**. La integración se recarga y conserva la cuenta. Las entidades del modo anterior permanecen en el registro como no disponibles.
 
 ## Funciones compatibles
 

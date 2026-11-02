@@ -52,5 +52,16 @@
         "name": "Activo habilitado"
       }
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opciones avanzadas",
+        "description": "Activa los controles o usa solo lectura.",
+        "data": {
+          "advanced": "Permitir controlar las recetas"
+        }
+      }
+    }
   }
 }

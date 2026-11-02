@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1
+
+- Change advanced options from Configure without removing the integration or reconnecting the account.
+- Reload the correct platforms when switching between read-only and control modes.
+
 ## 0.1.0
 
 - Pin CI actions to immutable commits.

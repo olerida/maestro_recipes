@@ -52,5 +52,16 @@
         "name": "Active enabled"
       }
     }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Advanced options",
+        "description": "Enable controls or use read-only mode.",
+        "data": {
+          "advanced": "Allow recipe controls"
+        }
+      }
+    }
   }
 }

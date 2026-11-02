@@ -7,7 +7,7 @@ from .recipes import discover, read_value
 
 async def async_setup_entry(hass, entry, async_add_entities):
     entities = []
-    for coordinator, stove, lock in entry.runtime_data:
+    for coordinator, stove, lock in entry.runtime_data.sources:
         commands = discover(stove.Model)
         for key in ("pellet", "active_value"):
             if key in commands and (key != "active_value" or "active_enabled" in commands):

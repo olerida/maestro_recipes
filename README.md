@@ -50,7 +50,7 @@ Install an available update from HACS and restart Home Assistant. For a manual i
 3. Select the account already configured in Maestro MCZ.
 4. Leave **Advanced options** unchecked to view values without controls. Enable it to expose supported controls, then submit.
 
-No additional credentials are required. Each Maestro MCZ account can be added once. To change the advanced setting, remove and add the integration again.
+No additional credentials are required. Each Maestro MCZ account can be added once. To change it later, open **Settings** → **Devices & services** → **Maestro MCZ Recipes**, select **Configure**, and change **Advanced options**. The integration reloads and retains the account. Entities from the previous mode remain unavailable in the registry.
 
 ## Supported functionality
 

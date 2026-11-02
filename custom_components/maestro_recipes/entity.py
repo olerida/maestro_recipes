@@ -8,7 +8,7 @@ from .recipes import read_value
 
 def setup_read_entities(entry, async_add_entities, entity_class, keys, value_type):
     """Create entities when values first appear and release listeners on unload."""
-    for coordinator, stove, lock in entry.runtime_data:
+    for coordinator, stove, lock in entry.runtime_data.sources:
         known = set()
 
         @callback
