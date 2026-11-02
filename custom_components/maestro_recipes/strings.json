@@ -1,0 +1,56 @@
+{
+  "title": "Maestro MCZ Recipes",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Maestro MCZ account",
+        "description": "Select an existing account.",
+        "data": {
+          "source_entry_id": "Maestro MCZ integration",
+          "advanced": "Advanced options: allow recipe controls"
+        }
+      }
+    },
+    "abort": {
+      "no_source": "No accounts are available or they are already configured.",
+      "already_configured": "This account is already configured."
+    },
+    "error": {
+      "source_unavailable": "The account is unavailable or this version is unsupported."
+    }
+  },
+  "entity": {
+    "number": {
+      "pellet": {
+        "name": "Pellet recipe"
+      },
+      "active_value": {
+        "name": "Active recipe"
+      }
+    },
+    "switch": {
+      "adaptive": {
+        "name": "Adaptive mode"
+      },
+      "active_enabled": {
+        "name": "Active enabled"
+      }
+    },
+    "sensor": {
+      "pellet": {
+        "name": "Pellet recipe"
+      },
+      "active_value": {
+        "name": "Active recipe"
+      }
+    },
+    "binary_sensor": {
+      "adaptive": {
+        "name": "Adaptive mode"
+      },
+      "active_enabled": {
+        "name": "Active enabled"
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "title": "Maestro MCZ Recetas",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Cuenta Maestro MCZ",
+        "description": "Selecciona la cuenta existente.",
+        "data": {
+          "source_entry_id": "Integración Maestro MCZ",
+          "advanced": "Opciones avanzadas: permitir controlar las recetas"
+        }
+      }
+    },
+    "abort": {
+      "no_source": "No hay cuentas disponibles o ya están añadidas.",
+      "already_configured": "Esta cuenta ya está configurada."
+    },
+    "error": {
+      "source_unavailable": "La cuenta no está disponible o esta versión no es compatible."
+    }
+  },
+  "entity": {
+    "number": {
+      "pellet": {
+        "name": "Receta pellet"
+      },
+      "active_value": {
+        "name": "Receta Activo"
+      }
+    },
+    "switch": {
+      "adaptive": {
+        "name": "Modo de adaptación"
+      },
+      "active_enabled": {
+        "name": "Activo habilitado"
+      }
+    },
+    "sensor": {
+      "pellet": {
+        "name": "Receta pellet"
+      },
+      "active_value": {
+        "name": "Receta Activo"
+      }
+    },
+    "binary_sensor": {
+      "adaptive": {
+        "name": "Modo de adaptación"
+      },
+      "active_enabled": {
+        "name": "Activo habilitado"
+      }
+    }
+  }
+}

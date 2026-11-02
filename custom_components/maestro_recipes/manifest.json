@@ -1,0 +1,16 @@
+{
+  "domain": "maestro_recipes",
+  "name": "Maestro MCZ Recipes",
+  "codeowners": [
+    "@olerida"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "maestro_mcz"
+  ],
+  "documentation": "https://github.com/olerida/maestro_recipes",
+  "issue_tracker": "https://github.com/olerida/maestro_recipes/issues",
+  "iot_class": "cloud_polling",
+  "version": "0.1.0",
+  "integration_type": "hub"
+}
