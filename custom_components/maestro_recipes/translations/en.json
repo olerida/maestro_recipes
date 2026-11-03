@@ -8,6 +8,9 @@
         "data": {
           "source_entry_id": "Maestro MCZ integration",
           "advanced": "Advanced options: allow recipe controls"
+        },
+        "data_description": {
+          "advanced": "Warning: Normal mode is read-only. Advanced mode can modify the stove’s combustion settings and is intended only for technicians or people with advanced knowledge."
         }
       }
     },
@@ -60,6 +63,9 @@
         "description": "Enable controls or use read-only mode.",
         "data": {
           "advanced": "Allow recipe controls"
+        },
+        "data_description": {
+          "advanced": "Warning: Normal mode is read-only. Advanced mode can modify the stove’s combustion settings and is intended only for technicians or people with advanced knowledge."
         }
       }
     }

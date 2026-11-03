@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2
+
+- Warn beside advanced options during setup and configuration that controls can modify combustion settings and are intended for technicians or people with advanced knowledge.
+- Clarify that normal mode is read-only in the English and Spanish README files.
+
 ## 0.1.1
 
 - Change advanced options from Configure without removing the integration or reconnecting the account.

@@ -4,6 +4,9 @@
 
 [Español](README.es.md)
 
+> [!WARNING]
+> Normal mode is read-only. Advanced mode, enabled by checking **Advanced options** during setup, allows changes to the stove's combustion settings and is intended only for technicians or people with advanced knowledge.
+
 Maestro MCZ Recipes is a custom integration for [Home Assistant](https://www.home-assistant.io/) that displays recipe settings from MCZ Maestro stoves. Optional controls can adjust Active, Pellet and adaptive mode. It uses the existing [Maestro MCZ integration](https://github.com/Robbe-B/maestro_mcz) and does not require additional credentials.
 
 This integration is experimental. Commands have been tested with simulations, but **their application on a physical stove has not yet been verified**. See the [research notes](docs/investigacion.md) and [quality self-assessment](docs/bronze-review.md); the latter is not an official rating.

@@ -4,6 +4,9 @@
 
 [English](README.md)
 
+> [!WARNING]
+> El modo normal es de solo lectura. El modo avanzado, que se activa marcando **Opciones avanzadas** durante la instalación, permite modificar los parámetros de combustión de la estufa y está destinado únicamente a técnicos o personas con conocimientos avanzados.
+
 Maestro MCZ Recipes es una integración personalizada para [Home Assistant](https://www.home-assistant.io/) que muestra las opciones de recetas de estufas MCZ Maestro. Puede habilitar controles para Activo, Pellet y el modo de adaptación. Utiliza la integración existente [Maestro MCZ](https://github.com/Robbe-B/maestro_mcz) y no requiere introducir de nuevo las credenciales.
 
 La integración es experimental. Las órdenes se han probado mediante simulaciones, pero **todavía no se ha verificado su aplicación en una estufa real**. Consulta la [investigación](docs/investigacion.md) y la [autoevaluación de calidad](docs/bronze-review.md); esta última no es una clasificación oficial.

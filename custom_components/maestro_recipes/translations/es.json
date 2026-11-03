@@ -8,6 +8,9 @@
         "data": {
           "source_entry_id": "Integración Maestro MCZ",
           "advanced": "Opciones avanzadas: permitir controlar las recetas"
+        },
+        "data_description": {
+          "advanced": "Advertencia: el modo normal es de solo lectura. El modo avanzado puede modificar los parámetros de combustión de la estufa y está destinado únicamente a técnicos o personas con conocimientos avanzados."
         }
       }
     },
@@ -60,6 +63,9 @@
         "description": "Activa los controles o usa solo lectura.",
         "data": {
           "advanced": "Permitir controlar las recetas"
+        },
+        "data_description": {
+          "advanced": "Advertencia: el modo normal es de solo lectura. El modo avanzado puede modificar los parámetros de combustión de la estufa y está destinado únicamente a técnicos o personas con conocimientos avanzados."
         }
       }
     }
