@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Fix the README image URL when displayed in HACS.
+
 ## 0.1.2
 
 - Warn beside advanced options during setup and configuration that controls can modify combustion settings and are intended for technicians or people with advanced knowledge.

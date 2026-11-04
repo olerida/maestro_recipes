@@ -1,6 +1,6 @@
 # Maestro MCZ Recipes
 
-<img src="custom_components/maestro_recipes/brand/icon.png" alt="Maestro MCZ Recipes" width="128">
+<img src="https://raw.githubusercontent.com/olerida/maestro_recipes/main/custom_components/maestro_recipes/brand/icon.png" alt="Maestro MCZ Recipes" width="128">
 
 [Español](README.es.md)
 
