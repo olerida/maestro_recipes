@@ -1,5 +1,6 @@
 """Recipe controls using a configured Maestro MCZ account."""
 import asyncio
+from collections.abc import Mapping
 from dataclasses import dataclass
 from homeassistant.const import Platform
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -17,14 +18,28 @@ class RuntimeData:
 
 
 def get_sources(hass, entry_id):
-    """Locate the tested legacy source coordinators."""
+    """Locate stoves by capability across known source layouts."""
     entry = hass.config_entries.async_get_entry(entry_id)
     if entry is None or entry.domain != SOURCE_DOMAIN:
         return []
-    source = hass.data.get(SOURCE_DOMAIN, {}).get(entry_id)
-    if not isinstance(source, list):
-        return []
-    return [(coordinator, coordinator.maestroapi) for coordinator in source]
+    source = getattr(entry, "runtime_data", None)
+    if source is None:
+        source = hass.data.get(SOURCE_DOMAIN, {}).get(entry_id)
+    if isinstance(source, Mapping):
+        coordinators = source.values()
+    elif isinstance(source, (list, tuple)):
+        coordinators = source
+    else:
+        stoves = getattr(source, "stoves", None)
+        if isinstance(stoves, Mapping):
+            return [(source, stove) for stove in stoves.values() if stove is not None]
+        coordinators = (source,)
+    result = []
+    for coordinator in coordinators:
+        stove = getattr(coordinator, "stove", None) or getattr(coordinator, "maestroapi", None)
+        if stove is not None:
+            result.append((coordinator, stove))
+    return result
 
 
 def sources_ready(sources):

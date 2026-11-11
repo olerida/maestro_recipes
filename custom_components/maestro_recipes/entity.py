@@ -34,11 +34,14 @@ class RecipeEntity(CoordinatorEntity):
         self.stove, self.lock, self.commands, self.key = stove, lock, commands, key
         self._attr_unique_id = f"{stove.UniqueCode}-recipe-{key}"
         self._attr_translation_key = key
-        self._attr_device_info = coordinator.get_device_info()
+        device_info = getattr(stove, "get_device_info", None) or getattr(coordinator, "get_device_info", None)
+        self._attr_device_info = device_info() if callable(device_info) else {"identifiers": {("maestro_mcz", stove.UniqueCode)}}
 
     @property
     def available(self):
-        connected = getattr(getattr(self.stove, "Status", None), "is_connected", None)
+        connected = getattr(self.stove, "is_connected", None)
+        if connected is None:
+            connected = getattr(getattr(self.stove, "Status", None), "is_connected", None)
         value = read_value(self.stove, self.key)
         expected = int if self.key in ("pellet", "active_value") else bool
         if type(value) is not expected:
@@ -48,7 +51,14 @@ class RecipeEntity(CoordinatorEntity):
         return super().available and connected is not False and value is not None
 
     async def send(self, value):
-        from custom_components.maestro_mcz.maestro.http.request import MczProgramCommand
+        if callable(getattr(self.stove, "activateProgramMultipleCommands", None)):
+            from custom_components.maestro_mcz.maestro.controller.requests.activate_program import ProgramCommand
+            send_commands = self.stove.activateProgramMultipleCommands
+        elif callable(getattr(self.stove, "ActivateProgramMultipleCommands", None)):
+            from custom_components.maestro_mcz.maestro.http.request import MczProgramCommand as ProgramCommand
+            send_commands = self.stove.ActivateProgramMultipleCommands
+        else:
+            raise HomeAssistantError("Maestro MCZ does not support recipe commands")
 
         async with self.lock:
             if not self.available:
@@ -71,12 +81,13 @@ class RecipeEntity(CoordinatorEntity):
             config_ids = {self.commands[k].config_id for k in values}
             if len(config_ids) != 1:
                 raise HomeAssistantError("Recipe commands use incompatible configurations")
-            commands = [MczProgramCommand(self.commands[k].sensor_id, v) for k, v in values.items()]
+            commands = [ProgramCommand(self.commands[k].sensor_id, v) for k, v in values.items()]
             accepted = False
             def success():
                 nonlocal accepted
                 accepted = True
-            await self.stove.ActivateProgramMultipleCommands(config_ids.pop(), commands, success)
+            await send_commands(config_ids.pop(), commands, success)
             if not accepted:
                 raise HomeAssistantError("Maestro MCZ did not confirm the request")
-            await self.coordinator.update_data_after_set()
+            refresh = getattr(self.coordinator, "update_data_after_set", None) or self.coordinator.async_refresh
+            await refresh()

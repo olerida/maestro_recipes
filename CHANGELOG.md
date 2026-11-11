@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4
+
+- Support legacy, per-stove and per-account Maestro MCZ coordinator layouts and both known command interfaces, detected by capability.
+- Keep command validation and test the newer interfaces with simulated devices; physical writes have not been verified.
+
 ## 0.1.3
 
 - Fix the README image URL when displayed in HACS.

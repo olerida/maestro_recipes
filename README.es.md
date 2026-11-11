@@ -15,7 +15,7 @@ La integración incluye el icono y el logotipo de MCZ como marca local para Home
 
 ## Dispositivos compatibles
 
-El código admite la estructura de coordinadores de **Maestro MCZ 0.6.7-beta**. La investigación de las pantallas se ha realizado con Maestro+ 5.6.9 y una MCZ Ego Comfort Air con firmware M2S.AIR.24.20. No se han verificado escrituras reales ni la compatibilidad completa con otras estufas o versiones de la integración original.
+El código admite las estructuras de coordinadores examinadas en **Maestro MCZ 0.6.7-beta, 1.0.2 y el coordinador más reciente por cuenta**. Estas interfaces se prueban con objetos simulados; no se han verificado el funcionamiento completo con las versiones más recientes ni las escrituras reales. La investigación de las pantallas se ha realizado con Maestro+ 5.6.9 y una MCZ Ego Comfort Air con firmware M2S.AIR.24.20.
 
 ## Requisitos previos
 
@@ -76,7 +76,7 @@ Para cambiar Activo, se actualiza el origen y se envían juntos el ajuste y su e
 - Es un proyecto comunitario independiente, no una integración oficial de MCZ.
 - Las órdenes no se han validado en una estufa real; los controles son experimentales.
 - Solo se muestran valores disponibles en la integración original y controles reconocidos para el modelo.
-- Se utilizan interfaces internas de Maestro MCZ, que pueden cambiar. Solo se admite la estructura de la versión 0.6.7-beta.
+- Se detectan las interfaces conocidas de Maestro MCZ por sus capacidades, pero estas interfaces internas pueden cambiar en futuras versiones.
 - Recarga Recipes después de recargar o actualizar Maestro MCZ.
 - El formulario y los nombres de las entidades están disponibles en español e inglés.
 

@@ -15,7 +15,7 @@ Local MCZ branding is included for Home Assistant 2026.3 or newer.
 
 ## Supported devices
 
-The code supports the coordinator structure of **Maestro MCZ 0.6.7-beta**. The app screens were investigated using Maestro+ 5.6.9 and an MCZ Ego Comfort Air with M2S.AIR.24.20 firmware. Physical writes and full compatibility with other stoves or source-integration versions have not been verified.
+The code supports the coordinator structures inspected in **Maestro MCZ 0.6.7-beta, 1.0.2 and the newer account coordinator**. These interfaces are tested with simulated objects; end-to-end use with the newer versions and physical writes have not been verified. The app screens were investigated using Maestro+ 5.6.9 and an MCZ Ego Comfort Air with M2S.AIR.24.20 firmware.
 
 ## Prerequisites
 
@@ -76,7 +76,7 @@ Changing Active refreshes the source and sends the adjustment and enabled state 
 - This is an independent community project, not an official MCZ integration.
 - Commands have not been validated on a physical stove; controls are experimental.
 - Values must be provided by the original integration, and controls must be recognized for the model.
-- The component uses internal Maestro MCZ interfaces that may change. Only the 0.6.7-beta coordinator structure is supported.
+- The component detects known Maestro MCZ interfaces by capability, but those internal interfaces can change in future versions.
 - Reload Recipes after reloading or updating Maestro MCZ.
 - The setup form and entity names are available in English and Spanish.
 

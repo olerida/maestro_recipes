@@ -196,6 +196,61 @@ async def test_source_setup_retry_and_unload(hass):
         assert await async_unload_entry(hass, entry)
         unload.assert_awaited_once()
 
+
+async def test_source_layouts_use_each_stove(hass):
+    """Support the legacy, per-device and per-account source layouts."""
+    from pytest_homeassistant_custom_component.common import MockConfigEntry
+    from custom_components.maestro_recipes import get_sources
+
+    source = MockConfigEntry(domain="maestro_mcz", entry_id="source-layouts")
+    source.add_to_hass(hass)
+    one, two = object(), object()
+    old = NS(maestroapi=one)
+    hass.data["maestro_mcz"] = {source.entry_id: [old]}
+    assert get_sources(hass, source.entry_id) == [(old, one)]
+    first, second = NS(stove=one), NS(stove=two)
+    source.runtime_data = {"one": first, "two": second}
+    assert get_sources(hass, source.entry_id) == [(first, one), (second, two)]
+    account = NS(stoves={"one": one, "two": two})
+    source.runtime_data = account
+    assert get_sources(hass, source.entry_id) == [(account, one), (account, two)]
+    source.runtime_data = NS(stoves=None)
+    assert get_sources(hass, source.entry_id) == []
+
+
+async def test_current_command_interface_and_device_info(hass, monkeypatch):
+    """Send the paired values through the newer command interface."""
+    import sys
+    from types import ModuleType
+    module = ModuleType("custom_components.maestro_mcz.maestro.controller.requests.activate_program")
+    class ProgramCommand:
+        def __init__(self, sensor_id, value):
+            self.SensorId, self.Value = sensor_id, value
+    module.ProgramCommand = ProgramCommand
+    monkeypatch.setitem(sys.modules, module.__name__, module)
+    _, commands = fixture()
+    coordinator = MagicMock(spec=["last_update_success", "async_refresh", "update_data_after_set"])
+    coordinator.last_update_success = True
+    coordinator.async_refresh = AsyncMock()
+    coordinator.update_data_after_set = AsyncMock()
+    stove = NS(UniqueCode="test", Status=NS(pos_ric_flu=0, act=True), State=None,
+               is_connected=True, get_device_info=lambda: {"identifiers": {("maestro_mcz", "test")}})
+    sent = []
+    async def send(config, items, callback):
+        sent.append((config, items))
+        callback()
+    stove.activateProgramMultipleCommands = send
+    entity = RecipeNumber(coordinator, stove, asyncio.Lock(), commands, "active_value")
+    await entity.async_set_native_value(2)
+    assert {(item.SensorId, item.Value) for item in sent[0][1]} == {
+        (commands["active_value"].sensor_id, 2), (commands["active_enabled"].sensor_id, True)}
+    assert entity.device_info["identifiers"] == {("maestro_mcz", "test")}
+    coordinator.update_data_after_set.assert_awaited_once()
+    stove.is_connected = False
+    with pytest.raises(HomeAssistantError):
+        await entity.async_set_native_value(1)
+    assert len(sent) == 1
+
 async def test_active_refresh_failure_prevents_write(hass):
     from custom_components.maestro_recipes.entity import RecipeEntity
     import sys
